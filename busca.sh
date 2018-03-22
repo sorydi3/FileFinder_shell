@@ -1,31 +1,38 @@
  #rmdir ~/resultat && mkdir ~/resultat
-
 while getopts n:i:p:o:d:s: option
 do
 case "${option}"
 in
-n) ${OPTARG};;
+n)FITXER=${OPTARG};;
 i) NUMINODE=${OPTARG};;
 p) PERMISSOS=${OPTARG};;
 o) ORDRE=$OPTARG;;
 d) DIRECTORY=${OPTARG};;
-s) FITXER=$OPTARG;;
+s) GUARDA=$OPTARG;;
 ?) WRONG=$OPTARG;;
 esac
 done
-echo "..$NUMINODE..$PERMISSOS..$ORDRE..$DIRECTORY..$FITXER..$WRONG.."
+
 recurse_path () {
+   path=`pwd`
+            if [ -z  $FITXER ]
+        then
+            ls -lisa |  grep "$PERMISSOS" |  grep -E ^$NUMINODE  |  grep "$FITXER$" &&  echo"torbat a $path"
+        else
+             ls -lisa |  grep "$PERMISSOS" |  grep -E ^$NUMINODE  |  grep  "$FITXER$"  &&  echo"torbat a $path"
+     fi
     for i in $*; do
-       echo  `pwd`
-         echo $i | grep  "o"
         if [ -d "${i}" ] 
           then 
-            ( cd $i &&   recurse_path  $(ls "."))
-         else
-             echo $i >>  notDirectorie 
+              
+             ( cd $i &&   recurse_path  $(ls "."))
         fi
     done
 }
+if [ ! -z  $DIRECTORY ]
+        then
+           cd $DIRECTORY 
+     fi
 
 recurse_path $(ls  ".")
 echo $var
