@@ -66,6 +66,6 @@ wait(NULL);
  close(fd);
  close(pipe2[1]);
  close(pipe2[0]);
- execl ("/bin/sort","sort",(char *)0);
+ execl ("/bin/sort","sort","-nrk2",(char *)0);
 return 0;
 }
